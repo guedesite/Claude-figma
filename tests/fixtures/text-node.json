@@ -1,0 +1,24 @@
+{
+  "id": "3:1",
+  "name": "StyledHeading",
+  "type": "TEXT",
+  "visible": true,
+  "characters": "Welcome to Figma",
+  "style": {
+    "fontFamily": "Inter",
+    "fontWeight": 800,
+    "fontSize": 32,
+    "lineHeightPx": 40,
+    "lineHeightUnit": "PIXELS",
+    "textAlignHorizontal": "CENTER",
+    "letterSpacing": -0.5,
+    "textCase": "UPPER",
+    "textDecoration": "NONE"
+  },
+  "fills": [
+    { "type": "SOLID", "visible": true, "color": { "r": 0.1, "g": 0.1, "b": 0.9, "a": 1 } }
+  ],
+  "strokes": [],
+  "effects": [],
+  "absoluteBoundingBox": { "x": 100, "y": 50, "width": 400, "height": 40 }
+}

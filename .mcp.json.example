@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "figma": {
+      "command": "node",
+      "args": ["path/to/Claude-figma/dist/index.js"],
+      "env": {
+        "FIGMA_TOKEN": "figd_your_personal_access_token_here"
+      }
+    }
+  }
+}

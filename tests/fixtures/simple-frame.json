@@ -1,0 +1,15 @@
+{
+  "id": "1:2",
+  "name": "SimpleCard",
+  "type": "FRAME",
+  "visible": true,
+  "absoluteBoundingBox": { "x": 0, "y": 0, "width": 320, "height": 200 },
+  "fills": [
+    { "type": "SOLID", "visible": true, "color": { "r": 1, "g": 1, "b": 1, "a": 1 } }
+  ],
+  "strokes": [],
+  "effects": [],
+  "cornerRadius": 8,
+  "layoutMode": "NONE",
+  "children": []
+}

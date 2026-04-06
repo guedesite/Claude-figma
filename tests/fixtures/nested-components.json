@@ -1,0 +1,184 @@
+{
+  "id": "4:1",
+  "name": "Navbar",
+  "type": "FRAME",
+  "visible": true,
+  "absoluteBoundingBox": { "x": 0, "y": 0, "width": 1440, "height": 64 },
+  "fills": [
+    { "type": "SOLID", "visible": true, "color": { "r": 0.98, "g": 0.98, "b": 0.98, "a": 1 } }
+  ],
+  "strokes": [
+    { "type": "SOLID", "visible": true, "color": { "r": 0.9, "g": 0.9, "b": 0.9, "a": 1 } }
+  ],
+  "strokeWeight": 1,
+  "strokeAlign": "INSIDE",
+  "effects": [],
+  "layoutMode": "HORIZONTAL",
+  "primaryAxisAlignItems": "SPACE_BETWEEN",
+  "counterAxisAlignItems": "CENTER",
+  "paddingTop": 12,
+  "paddingRight": 24,
+  "paddingBottom": 12,
+  "paddingLeft": 24,
+  "itemSpacing": 16,
+  "children": [
+    {
+      "id": "4:2",
+      "name": "Logo",
+      "type": "INSTANCE",
+      "visible": true,
+      "absoluteBoundingBox": { "x": 24, "y": 12, "width": 120, "height": 40 },
+      "fills": [],
+      "strokes": [],
+      "effects": [],
+      "children": [
+        {
+          "id": "4:3",
+          "name": "LogoIcon",
+          "type": "RECTANGLE",
+          "visible": true,
+          "absoluteBoundingBox": { "x": 24, "y": 12, "width": 40, "height": 40 },
+          "fills": [
+            { "type": "SOLID", "visible": true, "color": { "r": 0.2, "g": 0.4, "b": 1, "a": 1 } }
+          ],
+          "strokes": [],
+          "effects": [],
+          "cornerRadius": 8
+        },
+        {
+          "id": "4:4",
+          "name": "LogoText",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "MyApp",
+          "style": {
+            "fontFamily": "Inter",
+            "fontWeight": 700,
+            "fontSize": 18,
+            "textAlignHorizontal": "LEFT"
+          },
+          "fills": [
+            { "type": "SOLID", "visible": true, "color": { "r": 0.1, "g": 0.1, "b": 0.1, "a": 1 } }
+          ],
+          "strokes": [],
+          "effects": [],
+          "absoluteBoundingBox": { "x": 72, "y": 22, "width": 72, "height": 20 }
+        }
+      ]
+    },
+    {
+      "id": "4:5",
+      "name": "NavLinks",
+      "type": "FRAME",
+      "visible": true,
+      "absoluteBoundingBox": { "x": 500, "y": 12, "width": 400, "height": 40 },
+      "fills": [],
+      "strokes": [],
+      "effects": [],
+      "layoutMode": "HORIZONTAL",
+      "primaryAxisAlignItems": "CENTER",
+      "counterAxisAlignItems": "CENTER",
+      "itemSpacing": 32,
+      "children": [
+        {
+          "id": "4:6",
+          "name": "Link-Home",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Home",
+          "style": {
+            "fontFamily": "Inter",
+            "fontWeight": 500,
+            "fontSize": 14,
+            "textAlignHorizontal": "LEFT"
+          },
+          "fills": [
+            { "type": "SOLID", "visible": true, "color": { "r": 0.3, "g": 0.3, "b": 0.3, "a": 1 } }
+          ],
+          "strokes": [],
+          "effects": [],
+          "absoluteBoundingBox": { "x": 500, "y": 24, "width": 40, "height": 16 }
+        },
+        {
+          "id": "4:7",
+          "name": "Link-About",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "About",
+          "style": {
+            "fontFamily": "Inter",
+            "fontWeight": 500,
+            "fontSize": 14,
+            "textAlignHorizontal": "LEFT"
+          },
+          "fills": [
+            { "type": "SOLID", "visible": true, "color": { "r": 0.3, "g": 0.3, "b": 0.3, "a": 1 } }
+          ],
+          "strokes": [],
+          "effects": [],
+          "absoluteBoundingBox": { "x": 572, "y": 24, "width": 44, "height": 16 }
+        },
+        {
+          "id": "4:8",
+          "name": "Link-Contact",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Contact",
+          "style": {
+            "fontFamily": "Inter",
+            "fontWeight": 500,
+            "fontSize": 14,
+            "textAlignHorizontal": "LEFT"
+          },
+          "fills": [
+            { "type": "SOLID", "visible": true, "color": { "r": 0.3, "g": 0.3, "b": 0.3, "a": 1 } }
+          ],
+          "strokes": [],
+          "effects": [],
+          "absoluteBoundingBox": { "x": 648, "y": 24, "width": 56, "height": 16 }
+        }
+      ]
+    },
+    {
+      "id": "4:9",
+      "name": "CTA-Button",
+      "type": "COMPONENT",
+      "visible": true,
+      "absoluteBoundingBox": { "x": 1316, "y": 14, "width": 100, "height": 36 },
+      "fills": [
+        { "type": "SOLID", "visible": true, "color": { "r": 0.2, "g": 0.4, "b": 1, "a": 1 } }
+      ],
+      "strokes": [],
+      "effects": [],
+      "cornerRadius": 6,
+      "layoutMode": "HORIZONTAL",
+      "primaryAxisAlignItems": "CENTER",
+      "counterAxisAlignItems": "CENTER",
+      "paddingTop": 8,
+      "paddingRight": 16,
+      "paddingBottom": 8,
+      "paddingLeft": 16,
+      "children": [
+        {
+          "id": "4:10",
+          "name": "ButtonLabel",
+          "type": "TEXT",
+          "visible": true,
+          "characters": "Sign Up",
+          "style": {
+            "fontFamily": "Inter",
+            "fontWeight": 600,
+            "fontSize": 14,
+            "textAlignHorizontal": "CENTER"
+          },
+          "fills": [
+            { "type": "SOLID", "visible": true, "color": { "r": 1, "g": 1, "b": 1, "a": 1 } }
+          ],
+          "strokes": [],
+          "effects": [],
+          "absoluteBoundingBox": { "x": 1332, "y": 22, "width": 56, "height": 16 }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "2:1",
+  "name": "AutoLayoutCard",
+  "type": "FRAME",
+  "visible": true,
+  "absoluteBoundingBox": { "x": 0, "y": 0, "width": 320, "height": 200 },
+  "fills": [
+    { "type": "SOLID", "visible": true, "color": { "r": 1, "g": 1, "b": 1, "a": 1 } }
+  ],
+  "strokes": [],
+  "effects": [
+    {
+      "type": "DROP_SHADOW",
+      "visible": true,
+      "radius": 8,
+      "offset": { "x": 0, "y": 4 },
+      "spread": 0,
+      "color": { "r": 0, "g": 0, "b": 0, "a": 0.1 }
+    }
+  ],
+  "cornerRadius": 12,
+  "layoutMode": "VERTICAL",
+  "primaryAxisAlignItems": "MIN",
+  "counterAxisAlignItems": "CENTER",
+  "paddingTop": 16,
+  "paddingRight": 16,
+  "paddingBottom": 16,
+  "paddingLeft": 16,
+  "itemSpacing": 8,
+  "children": [
+    {
+      "id": "2:2",
+      "name": "Title",
+      "type": "TEXT",
+      "visible": true,
+      "characters": "Hello World",
+      "style": {
+        "fontFamily": "Inter",
+        "fontWeight": 700,
+        "fontSize": 20,
+        "lineHeightPx": 28,
+        "lineHeightUnit": "PIXELS",
+        "textAlignHorizontal": "LEFT"
+      },
+      "fills": [
+        { "type": "SOLID", "visible": true, "color": { "r": 0.067, "g": 0.094, "b": 0.153, "a": 1 } }
+      ],
+      "strokes": [],
+      "effects": [],
+      "absoluteBoundingBox": { "x": 16, "y": 16, "width": 288, "height": 28 },
+      "layoutSizingHorizontal": "FILL",
+      "layoutSizingVertical": "HUG"
+    },
+    {
+      "id": "2:3",
+      "name": "Description",
+      "type": "TEXT",
+      "visible": true,
+      "characters": "This is a simple card component with auto-layout.",
+      "style": {
+        "fontFamily": "Inter",
+        "fontWeight": 400,
+        "fontSize": 14,
+        "lineHeightPx": 20,
+        "lineHeightUnit": "PIXELS",
+        "textAlignHorizontal": "LEFT"
+      },
+      "fills": [
+        { "type": "SOLID", "visible": true, "color": { "r": 0.4, "g": 0.4, "b": 0.4, "a": 1 } }
+      ],
+      "strokes": [],
+      "effects": [],
+      "absoluteBoundingBox": { "x": 16, "y": 52, "width": 288, "height": 20 },
+      "layoutSizingHorizontal": "FILL",
+      "layoutSizingVertical": "HUG"
+    }
+  ]
+}

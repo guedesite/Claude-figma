@@ -1,0 +1,1 @@
+MCP server connecting Claude Code to Figma — browse files, navigate pages, and convert designs to HTML/CSS with automatic SVG icon export

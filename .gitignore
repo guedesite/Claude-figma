@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+*.tgz
+.DS_Store
+export-*/
+/test-results
+CLAUDE.md
+package-lock.json
