@@ -7,7 +7,7 @@ import { extractFileKey } from "../utils/url-parser.js";
 export function registerGetPage(server: McpServer): void {
   server.tool(
     "figma_get_page",
-    "Get the structure of a specific page in a Figma file. Shows the hierarchy of frames and elements with their IDs for further exploration or HTML conversion.",
+    `Get a page's frame hierarchy. Present the frames as a numbered list. When the user picks one, call figma_to_html to convert it. If they want the whole page, use the page node ID.`,
     {
       file_key: z.string().describe("File key or Figma file URL"),
       page_id: z.string().describe("Page node ID (e.g., '0:1'), from figma_get_file_info"),

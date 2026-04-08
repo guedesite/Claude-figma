@@ -6,7 +6,7 @@ import { extractProjectId } from "../utils/url-parser.js";
 export function registerListFiles(server: McpServer): void {
   server.tool(
     "figma_list_files",
-    "List all files in a Figma project. Accepts a project ID or a Figma project URL.",
+    `List files in a Figma project. Only use when you have a project ID (from figma_list_projects). Present results as a numbered list.`,
     { project_id: z.string().describe("Project ID or Figma project URL") },
     async ({ project_id }) => {
       const auth = getAuthenticatedClient();

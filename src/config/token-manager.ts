@@ -116,15 +116,6 @@ export function searchFileHistory(query: string): FileHistoryEntry[] {
 
 /**
  * Message to display when no token is configured.
+ * Keep it SHORT — Claude will add its own guidance.
  */
-export const NO_TOKEN_MESSAGE = `No Figma token configured.
-
-To connect to Figma, you need a Personal Access Token:
-
-1. Go to https://www.figma.com/developers/api#access-tokens
-2. Click "Create a new personal access token"
-3. Copy the generated token (starts with "figd_")
-
-Then provide it by typing your token in the chat, and I'll save it for you using the set_token tool.
-
-Alternatively, you can set the FIGMA_TOKEN environment variable in your MCP server configuration.`;
+export const NO_TOKEN_MESSAGE = `No Figma token configured. The user needs to provide a Figma Personal Access Token. Ask them to go to https://www.figma.com/developers/api#access-tokens, create a token, and paste it in the chat. Then call set_token with it.`;

@@ -6,19 +6,20 @@ import { FigmaClient } from "../api/figma-client.js";
 export function registerSetToken(server: McpServer): void {
   server.tool(
     "set_token",
-    "Save your Figma Personal Access Token and verify it works. The token is stored locally in ~/.figma-mcp-config.json.",
-    { token: z.string().min(1).describe("Your Figma Personal Access Token (starts with 'figd_')") },
+    `Save the user's Figma token. Call this when the user pastes a token (starts with "figd_").
+
+After saving, immediately call figma_browse to show their files. Do NOT ask "what do you want to do" — just start navigating.`,
+    { token: z.string().min(1).describe("Figma Personal Access Token") },
     async ({ token }) => {
       setToken(token);
 
-      // Verify immediately
       try {
         const client = new FigmaClient(token);
         const user = await client.getMe();
         return {
           content: [{
             type: "text",
-            text: `Token saved and verified successfully!\n\nConnected as: ${user.handle} (${user.email})\nYou can now browse your Figma files and convert designs to HTML.`,
+            text: `Token saved. Connected as ${user.handle} (${user.email}).`,
           }],
         };
       } catch (err) {
@@ -26,7 +27,7 @@ export function registerSetToken(server: McpServer): void {
         return {
           content: [{
             type: "text",
-            text: `Token saved, but verification failed: ${msg}\n\nPlease check that your token is valid and try again.`,
+            text: `Token saved but verification failed: ${msg}. Check that the token is valid.`,
           }],
           isError: true,
         };

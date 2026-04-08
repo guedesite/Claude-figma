@@ -7,7 +7,7 @@ import { recordFileAccess } from "../config/token-manager.js";
 export function registerGetFileInfo(server: McpServer): void {
   server.tool(
     "figma_get_file_info",
-    "Get metadata and page list for a Figma file. Accepts a file key or any Figma file/design URL.",
+    `Get file metadata and page list. Present the pages as a numbered list so the user can pick one. Then call figma_get_page or figma_to_html based on what they want.`,
     {
       file_key: z.string().describe("File key or Figma URL (e.g., 'ABC123' or 'https://www.figma.com/file/ABC123/...')"),
     },

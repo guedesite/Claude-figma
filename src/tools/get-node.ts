@@ -7,7 +7,7 @@ import { extractFileKey } from "../utils/url-parser.js";
 export function registerGetNode(server: McpServer): void {
   server.tool(
     "figma_get_node",
-    "Get detailed information about a specific node in a Figma file, including its properties, styles, and children.",
+    `Get detailed properties of a specific Figma node (layout, fills, typography, children). Use this when you need more detail before converting.`,
     {
       file_key: z.string().describe("File key or Figma file URL"),
       node_id: z.string().describe("Node ID (e.g., '123:456')"),

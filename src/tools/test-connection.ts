@@ -4,7 +4,10 @@ import { getAuthenticatedClient, isAuthError, formatApiError } from "./helpers.j
 export function registerTestConnection(server: McpServer): void {
   server.tool(
     "test_connection",
-    "Test the connection to Figma. Checks if a token is configured and verifies it by calling the Figma API.",
+    `Check the Figma connection. Call this FIRST when the user mentions Figma.
+
+If no token: ask the user to paste their Figma Personal Access Token (from https://www.figma.com/developers/api#access-tokens), then call set_token.
+If connected: immediately call figma_browse to start navigating. Do NOT ask the user what they want to do — just show them their recent files or ask for a URL.`,
     {},
     async () => {
       const auth = getAuthenticatedClient();
@@ -15,7 +18,7 @@ export function registerTestConnection(server: McpServer): void {
         return {
           content: [{
             type: "text",
-            text: `Connected to Figma successfully!\n\nUser: ${user.handle}\nEmail: ${user.email}\n\nYou can now use the Figma tools to browse files and convert designs.`,
+            text: `Connected as ${user.handle} (${user.email}).`,
           }],
         };
       } catch (err) {

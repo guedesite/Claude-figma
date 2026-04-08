@@ -11,18 +11,20 @@ import {
 export function registerBrowse(server: McpServer): void {
   server.tool(
     "figma_browse",
-    `Navigate your Figma workspace interactively. This is the main entry point.
+    `ALWAYS call this tool when the user wants to interact with Figma. This is the main entry point.
 
-You can provide:
-- A Figma URL (any figma.com URL — file, team, project, prototype)
-- A file name (searches in previously accessed files)
-- A file key, team ID, or project ID
-- Nothing — to see recent files and navigation options
+Accepts: a Figma URL, a file name, a file key, or nothing (shows recent files).
+The tool remembers previously accessed files — users can refer to them by name.
 
-This tool remembers previously accessed files, so users can refer to them by name.`,
+IMPORTANT behavior rules for Claude:
+- When user says "browse", "show my files", "open Figma" → call this with empty input
+- When user pastes a URL → call this with the URL
+- When user says a file name like "KOVRIA" → call this with the name
+- NEVER ask the user for a team ID or file key — this tool handles navigation
+- After getting results, present them as a numbered list so the user can pick`,
     {
       input: z.string().optional().describe(
-        "A Figma URL, file name, file key, team ID, project ID, or empty for recent files",
+        "A Figma URL, file name, or empty to see recent files",
       ),
     },
     async ({ input }) => {
@@ -127,32 +129,32 @@ This tool remembers previously accessed files, so users can refer to them by nam
 
 function showNavigationMenu() {
   const history = getFileHistory();
-  const recentSection = history.length > 0
-    ? [
-        `**Recent files / Fichiers recents:**`,
-        ...history.slice(0, 10).map(
-          (f, i) => `  ${i + 1}. **${f.name}** (key: \`${f.key}\`${f.pageCount ? `, ${f.pageCount} pages` : ""})`,
-        ),
-        ``,
-        `You can open a recent file by name or number.`,
-        ``,
-      ]
-    : [];
 
+  if (history.length > 0) {
+    // Has recent files → show them as the primary option
+    const list = history.slice(0, 10).map(
+      (f, i) => `  ${i + 1}. ${f.name}${f.pageCount ? ` (${f.pageCount} pages)` : ""}`,
+    ).join("\n");
+
+    return {
+      content: [{
+        type: "text" as const,
+        text: [
+          `Recent Figma files:`,
+          ``,
+          list,
+          ``,
+          `Pick a number to open a file, or paste a Figma URL to open something new.`,
+        ].join("\n"),
+      }],
+    };
+  }
+
+  // No history → first time, ask for a URL
   return {
     content: [{
       type: "text" as const,
-      text: [
-        `**Figma Navigation**`,
-        ``,
-        ...recentSection,
-        `**Other options:**`,
-        `- **Paste a Figma URL** — any URL from figma.com (file, design, prototype, team, project)`,
-        `- **Search by name** — type a file name to search in your recent files`,
-        `- **Browse by team** — give me a team URL: \`figma.com/files/team/TEAM_ID/...\``,
-        ``,
-        `What would you like to do?`,
-      ].join("\n"),
+      text: `No recent files. Ask the user to paste a Figma URL from their browser (any figma.com link works — file, design, or prototype URL).`,
     }],
   };
 }

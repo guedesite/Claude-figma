@@ -6,7 +6,7 @@ import { extractTeamId } from "../utils/url-parser.js";
 export function registerListProjects(server: McpServer): void {
   server.tool(
     "figma_list_projects",
-    "List all projects in a Figma team. Accepts a team ID or a Figma team URL (e.g., https://www.figma.com/files/team/123456/TeamName).",
+    `List projects in a Figma team. Only use this if the user provides a team URL. Never ask for a team ID — use figma_browse instead.`,
     { team_id: z.string().describe("Team ID or Figma team URL") },
     async ({ team_id }) => {
       const auth = getAuthenticatedClient();
