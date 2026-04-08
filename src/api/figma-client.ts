@@ -5,6 +5,8 @@ import type {
   FigmaFileNodesResponse,
   FigmaTeamProjectsResponse,
   FigmaProjectFilesResponse,
+  FigmaCommentsResponse,
+  FigmaComment,
 } from "./types.js";
 
 export class FigmaApiError extends Error {
@@ -43,6 +45,33 @@ export class FigmaClient {
       const body = await res.text();
       logger.error(`Figma API error: ${res.status} ${body.slice(0, 200)}`);
       throw new FigmaApiError(res.status, body);
+    }
+
+    return (await res.json()) as T;
+  }
+
+  private async requestWithBody<T>(
+    method: "POST" | "PUT" | "DELETE",
+    path: string,
+    body?: Record<string, unknown>,
+  ): Promise<T> {
+    const url = new URL(path, this.baseUrl);
+
+    logger.debug(`Figma API: ${method} ${url.pathname}`);
+
+    const res = await fetch(url.toString(), {
+      method,
+      headers: {
+        "X-Figma-Token": this.token,
+        "Content-Type": "application/json",
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      logger.error(`Figma API error: ${res.status} ${text.slice(0, 200)}`);
+      throw new FigmaApiError(res.status, text);
     }
 
     return (await res.json()) as T;
@@ -128,5 +157,45 @@ export class FigmaClient {
       params,
     );
     return result.images;
+  }
+
+  // ─── Comments ───
+
+  /** Get all comments for a file. */
+  async getComments(fileKey: string): Promise<FigmaCommentsResponse> {
+    return this.request<FigmaCommentsResponse>(
+      `/v1/files/${fileKey}/comments`,
+    );
+  }
+
+  /** Post a comment on a file. */
+  async postComment(
+    fileKey: string,
+    message: string,
+    opts?: { node_id?: string; parent_id?: string },
+  ): Promise<FigmaComment> {
+    const body: Record<string, unknown> = { message };
+    if (opts?.node_id) {
+      body.client_meta = { node_id: opts.node_id, node_offset: { x: 0, y: 0 } };
+    }
+    if (opts?.parent_id) {
+      body.comment_id = opts.parent_id;
+    }
+    return this.requestWithBody<FigmaComment>(
+      "POST",
+      `/v1/files/${fileKey}/comments`,
+      body,
+    );
+  }
+
+  /** Resolve (or unresolve) a comment. */
+  async resolveComment(
+    fileKey: string,
+    commentId: string,
+  ): Promise<FigmaComment> {
+    return this.requestWithBody<FigmaComment>(
+      "DELETE",
+      `/v1/files/${fileKey}/comments/${commentId}`,
+    );
   }
 }

@@ -8,6 +8,11 @@ import { registerGetFileInfo } from "./get-file-info.js";
 import { registerGetPage } from "./get-page.js";
 import { registerGetNode } from "./get-node.js";
 import { registerFigmaToHtml } from "./figma-to-html.js";
+import { registerGetComments } from "./get-comments.js";
+import { registerGetNodeComments } from "./get-node-comments.js";
+import { registerGetAnnotations } from "./get-annotations.js";
+import { registerPostComment } from "./post-comment.js";
+import { registerResolveComment } from "./resolve-comment.js";
 
 /**
  * Register all Figma MCP tools on the server.
@@ -22,4 +27,9 @@ export function registerAllTools(server: McpServer): void {
   registerGetPage(server);
   registerGetNode(server);
   registerFigmaToHtml(server);
+  registerGetComments(server);
+  registerGetNodeComments(server);
+  registerGetAnnotations(server);
+  registerPostComment(server);
+  registerResolveComment(server);
 }

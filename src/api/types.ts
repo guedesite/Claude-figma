@@ -188,6 +188,48 @@ export interface FigmaEffect {
   blendMode?: string;
 }
 
+// ─── Comments ───
+
+export interface FigmaCommentUser {
+  handle: string;
+  img_url: string;
+  id: string;
+}
+
+export interface FigmaCommentClientMeta {
+  node_id?: string | null;
+  node_offset?: { x: number; y: number } | null;
+}
+
+export interface FigmaComment {
+  id: string;
+  message: string;
+  created_at: string;
+  resolved_at: string | null;
+  user: FigmaCommentUser;
+  client_meta: FigmaCommentClientMeta | null;
+  order_id: string;
+  parent_id: string;
+}
+
+export interface FigmaCommentsResponse {
+  comments: FigmaComment[];
+}
+
+// ─── Annotations (Dev Mode) ───
+
+export interface FigmaAnnotation {
+  label: string;
+  description: string;
+  annotation_type?: string;
+}
+
+export interface FigmaAnnotatedNode {
+  document: FigmaNode & {
+    annotations?: FigmaAnnotation[];
+  };
+}
+
 // ─── Typography ───
 
 export interface FigmaTypeStyle {
