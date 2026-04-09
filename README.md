@@ -10,6 +10,8 @@ MCP server that connects Claude Code to Figma. Browse your files, explore pages,
 - **Convert to HTML + CSS** — Figma auto-layout maps to flexbox, typography, colors, shadows, gradients, border-radius
 - **SVG icon export** — vectors and icons are downloaded as local `.svg` files
 - **Token management** — environment variable or interactive setup in the chat
+- **Comments & threads** — read all comments, filter by node, post replies, delete comments
+- **Dev Mode annotations** — read structured annotations (development, design, accessibility)
 
 ## Quick Start
 
@@ -26,7 +28,8 @@ npm run build
 
 1. Go to [Figma > Settings > Personal Access Tokens](https://www.figma.com/developers/api#access-tokens)
 2. Click **"Create a new personal access token"**
-3. Copy the token (starts with `figd_`)
+3. Select the required scopes (see [Token Scopes](#token-scopes) below)
+4. Copy the token (starts with `figd_`)
 
 ### 3. Add to Claude Code
 
@@ -176,6 +179,11 @@ Claude: [creates src/components/Dashboard.tsx]
 | `figma_get_page` | Explore a page's frame hierarchy |
 | `figma_get_node` | Get detailed properties of any node |
 | `figma_to_html` | **Convert a design to HTML + CSS** with SVG export |
+| `figma_get_comments` | Get all comments from a file (threads, authors, resolution status) |
+| `figma_get_node_comments` | Get comments attached to a specific node |
+| `figma_get_annotations` | Get Dev Mode annotations + devStatus (**limited — API in private beta**) |
+| `figma_post_comment` | Post a comment on a file or node, reply to a thread |
+| `figma_resolve_comment` | Delete a comment from a file |
 
 All tools accept Figma URLs in addition to raw IDs.
 
@@ -191,6 +199,48 @@ All tools accept Figma URLs in addition to raw IDs.
 | `figma.com/files/team/12345/Name` | Team ID |
 | `figma.com/files/project/789/Name` | Project ID |
 
+## Comments & Annotations
+
+### Read comments before implementing
+
+```
+You:    Check the comments on the Dashboard before implementing
+
+Claude: Comments for KOVRIA (8 threads, 2 resolved)
+        
+        📍 On node `240:188` (Bouton Modifier):
+          💬 @hugo: "Ce bouton doit ouvrir une modale, pas naviguer"
+          ↳ @marie: "OK, implémenté en slide-over panel"
+          ✅ Resolved 2026-03-15
+
+        📍 On canvas (no node):
+          💬 @hugo: "Attention au contraste sur le header"
+```
+
+### Dev Mode annotations (limited)
+
+> **Note:** The Figma REST API `annotations` field has been in **private beta** since January 2024 and is not publicly available. The tool attempts to read annotations and `devStatus` fields, but will likely return empty results even when annotations are visible in the Figma UI. As a workaround, add functional specs as **comments** in Figma (accessible via the API) or paste annotation text directly in the chat.
+
+```
+You:    Check the annotations on the Dashboard
+
+Claude: No annotations or dev status data found.
+        ⚠️ The Figma REST API annotations field is in private beta.
+        Use figma_get_comments to read file comments instead.
+```
+
+### Post a comment
+
+```
+You:    Add a comment on node 240:188 saying "Implemented as slide-over"
+
+Claude: ✅ Posted comment on node `240:188` (comment ID: `12345`)
+```
+
+### Comments caching
+
+File comments are cached for 60 seconds to avoid repeated API calls. The cache is automatically invalidated when you post or delete a comment.
+
 ## Token Management
 
 | Method | Description |
@@ -199,6 +249,17 @@ All tools accept Figma URLs in addition to raw IDs.
 | Interactive via `set_token` | Type your token in the chat. Saved to `~/.figma-mcp-config.json`. |
 
 The env variable takes priority.
+
+### Token Scopes
+
+| Scope | Required for | Required? |
+|-------|-------------|-----------|
+| `file_content:read` | All read tools (browse, pages, nodes, HTML conversion) | Yes |
+| `file_comments:read` | `figma_get_comments`, `figma_get_node_comments` | For comments |
+| `file_comments:write` | `figma_post_comment`, `figma_resolve_comment` | For posting/deleting |
+| `file_dev_resources:read` | `figma_get_annotations` | For Dev Mode annotations |
+
+If `test_connection` succeeds but a comment/annotation tool returns 403, the token is missing the required scope. Regenerate it at [Figma API Settings](https://www.figma.com/developers/api#access-tokens).
 
 ## HTML Conversion
 
@@ -299,7 +360,7 @@ src/
 ├── api/
 │   ├── figma-client.ts       # Figma REST API client
 │   └── types.ts              # TypeScript types for Figma API
-├── tools/                    # 9 MCP tools
+├── tools/                    # 14 MCP tools
 │   ├── browse.ts             # figma_browse (entry point + file search)
 │   ├── set-token.ts
 │   ├── test-connection.ts
@@ -308,7 +369,12 @@ src/
 │   ├── get-file-info.ts
 │   ├── get-page.ts
 │   ├── get-node.ts
-│   └── figma-to-html.ts      # HTML converter + SVG export
+│   ├── figma-to-html.ts      # HTML converter + SVG export
+│   ├── get-comments.ts       # All file comments with threads
+│   ├── get-node-comments.ts  # Comments filtered by node ID
+│   ├── get-annotations.ts    # Dev Mode annotations
+│   ├── post-comment.ts       # Post/reply to comments
+│   └── resolve-comment.ts    # Delete a comment
 ├── converter/                # Figma-to-HTML engine
 │   ├── index.ts              # convertNodeToHtml() + collectVectorNodeIds()
 │   ├── node-handlers.ts      # Per-type rendering (FRAME, TEXT, VECTOR...)
@@ -322,7 +388,8 @@ src/
     ├── color.ts              # RGBA (0-1) → CSS hex/rgba
     ├── logger.ts             # stderr-only logger
     ├── url-parser.ts         # Figma URL → file key, team ID, etc.
-    └── svg-downloader.ts     # Download SVGs to local files
+    ├── svg-downloader.ts     # Download SVGs to local files
+    └── comments-cache.ts     # In-memory TTL cache (60s) for comments
 ```
 
 ## Requirements
